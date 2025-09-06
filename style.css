@@ -7,9 +7,9 @@
     --secondary-color: #badbec;
     --text-color: #000000;
     --text-secondary: #000000;
-    --bg-light: #ffffff;
-    --bg-card: #2cd4dd;
-    --header-bg-color: #ffffff; 
+    --bg-light: transparent;
+    --bg-card: rgba(152, 193, 217, 0.5);
+    --header-bg-color: rgba(251, 243, 242, 0.85);
     --border-color: #6DA5C0;
     --success-color: #1a7431;
     --error-color: #dc3545;
@@ -29,12 +29,13 @@ body.dark-mode {
     --secondary-color: #8b939a;
     --text-color: #e0e0e0;
     --text-secondary: #a0a0a0;
-    --bg-light: #1d1d1d;
-    --bg-card: #000000;
-    --header-bg-color: #1d1d1d; 
+    --bg-light: transparent;
+    --bg-card: rgba(0, 0, 0, 0.5);
+    --header-bg-color: rgba(29, 29, 29, 0.85); 
     --border-color: #444444;
     --success-color: #5dd27c;
     --error-color: #ff6b7e;
+    background-color: #121212; /* Sötét alapszín */
 
     /* --- Sötét Mód Árnyékai --- */
     --shadow-color: rgba(255, 255, 255, 0.08);
@@ -57,6 +58,7 @@ body {
     background-color: var(--bg-light);
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #f0f0f0; /* Alapszín a részecskék mögött */
 }
 
 .container {
@@ -333,7 +335,7 @@ section {
 
 /* --- Hero Szekció --- */
 .hero {
-    background-color: var(--bg-card);
+    position: relative;
     min-height: calc(90vh - 70px);
     display: flex;
     align-items: center;
@@ -341,14 +343,14 @@ section {
     position: relative; 
 }
 /* Az animáció konténere */
+
 #tsparticles {
-    position: absolute;
+    position: fixed; /* Rögzíti a nézethez, görgetéskor is a helyén marad */
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 0; /* A tartalom mögé helyezi */
-
+    z-index: -1; /* MINDEN más elem mögé helyezi */
 }
 .hero-grid {
     display: grid;

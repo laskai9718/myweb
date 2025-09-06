@@ -46,10 +46,6 @@ export function initParticles() {
                     enable: true,
                     mode: "repulse" // Egeret taszítják a részecskék
                 },
-                onclick: {
-                    enable: true,
-                    mode: "push" // Kattintásra újak jönnek létre
-                },
                 resize: true
             },
             modes: {
