@@ -9,7 +9,7 @@
     --text-secondary: #000000;
     --bg-light: transparent;
     --bg-card: rgba(152, 193, 217, 0.5);
-    --header-bg-color: rgba(251, 243, 242, 0.85);
+    --header-bg-color: rgba(251, 243, 242, 0.95);
     --border-color: #6DA5C0;
     --success-color: #1a7431;
     --error-color: #dc3545;
@@ -31,7 +31,7 @@ body.dark-mode {
     --text-secondary: #a0a0a0;
     --bg-light: transparent;
     --bg-card: rgba(0, 0, 0, 0.5);
-    --header-bg-color: rgba(29, 29, 29, 0.85); 
+    --header-bg-color: rgba(29, 29, 29, 0.95); 
     --border-color: #444444;
     --success-color: #5dd27c;
     --error-color: #ff6b7e;
