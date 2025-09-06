@@ -756,6 +756,86 @@ footer {
     margin-top: 40px; 
 }
 
+/* ==========================================================================
+   RÓLAM SZEKCIÓ BŐVÍTETT STÍLUSAI
+   ========================================================================== */
+.about-me-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem; /* Távolság a skills résztől */
+}
+
+.profile-pic-container {
+    text-align: center;
+}
+
+.profile-pic {
+    max-width: 200px;
+    width: 100%;
+    border-radius: 50%;
+    border: 5px solid var(--bg-card);
+    box-shadow: 0 5px 20px var(--shadow-color);
+}
+
+.about-text h3 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.skills-section {
+    text-align: center;
+}
+
+.skills-title {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.skill-item {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 10px var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.skill-item i {
+    font-size: 4rem;
+}
+
+.skill-item span {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* RESZPONZIVITÁS a Rólam szekcióhoz */
+/* Ezt a media query-t a style.css végén lévő reszponzív blokkhoz add hozzá */
+@media (max-width: 768px) {
+    .about-me-grid {
+        grid-template-columns: 1fr; /* Mobilon egy oszlop */
+        text-align: center;
+    }
+}
 
 /* ==========================================================================
    8. KEYFRAME ANIMÁCIÓK
