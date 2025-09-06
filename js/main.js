@@ -7,6 +7,7 @@ import { initContactForm } from './contact-form.js';
 import { initPortfolio } from './portfolio.js';
 import { initThemeSwitcher } from './theme.js';
 import { initUI } from './ui.js';
+import { initParticles } from './particles-init.js'; // <-- ÚJ IMPORT
 
 // Fő eseményfigyelő, ami mindent elindít
 document.addEventListener('DOMContentLoaded', function() {
@@ -16,4 +17,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initPortfolio();
     initThemeSwitcher();
     initUI();
+    initParticles();
 });
