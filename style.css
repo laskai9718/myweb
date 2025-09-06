@@ -1,0 +1,843 @@
+/* ==========================================================================
+   1. CSS VÁLTOZÓK --- A SZÍNEK ÉS MÉRETEK KÖZPONTI HELYE
+   ========================================================================== */
+:root {
+    /* --- Színek --- */
+    --primary-color: #1b1bf4;
+    --secondary-color: #BAE4F0;
+    --text-color: #212529;
+    --text-secondary: #555555;
+    --bg-light: #FBF3F2;
+    --bg-card: #98C1D9;
+    --header-bg-color: #FBF3F2; /* <-- EZ AZ ÚJ SOR (pl. fehér színnel) */
+    --border-color: #dee2e6;
+    --success-color: #1a7431;
+    --error-color: #dc3545;
+
+    /* --- Árnyékok --- */ 
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-light: rgba(0, 0, 0, 0.05);
+
+    /* --- Méretek --- */
+    --border-radius: 8px;
+    --header-height: 100px;
+}
+
+body.dark-mode {
+    /* --- Sötét Mód Színei --- */
+    --primary-color: #ff2a2a;
+    --secondary-color: #8b939a;
+    --text-color: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --bg-light: #1d1d1d;
+    --bg-card: #000000;
+    --header-bg-color: #1d1d1d; 
+    --border-color: #444444;
+    --success-color: #5dd27c;
+    --error-color: #ff6b7e;
+
+    /* --- Sötét Mód Árnyékai --- */
+    --shadow-color: rgba(255, 255, 255, 0.08);
+    --shadow-light: rgba(255, 255, 255, 0.05);
+}
+
+
+/* ==========================================================================
+   2. GLOBÁLIS STÍLUSOK --- ALAPBEÁLLÍTÁSOK (RESET)
+   ========================================================================== */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    line-height: 1.7;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 { 
+    color: var(--text-color); 
+}
+
+a { 
+    text-decoration: none; 
+    color: var(--primary-color); 
+    transition: color 0.3s ease; 
+}
+a:hover { 
+    color: var(--secondary-color); 
+}
+
+ul { 
+    list-style: none; 
+    padding: 0; 
+}
+
+
+/* ==========================================================================
+   3. FEJLÉC ÉS NAVIGÁCIÓ
+   ========================================================================== */
+header {
+    background-color: var(--header-bg-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px var(--shadow-light);
+    transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+
+header.shrink {
+    padding: 0.5rem 0;
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--text-color);
+}
+
+.logo img {
+    height: 50px; /* Itt állíthatod a magasságot */
+    width: auto;  /* A szélesség automatikusan igazodik a torzulás elkerülése érdekében */
+    vertical-align: middle; /* Biztosítja a függőleges középre igazítást */
+}
+.main-nav-links ul {
+    display: flex;
+    gap: 25px;
+    margin: 0;
+}
+
+.main-nav-links a {
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 10px 0;
+    position: relative;
+}
+
+.main-nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.main-nav-links a:hover::after,
+.main-nav-links a.active-link::after {
+    width: 100%;
+}
+
+.main-nav-links a.active-link { 
+    color: var(--primary-color); 
+}
+
+
+/* ==========================================================================
+   4. GOMBOK ÉS VEZÉRLŐK
+   ========================================================================== */
+.cta-button { 
+    display: inline-block; 
+    background-color: var(--primary-color); 
+    color: #ffffff; 
+    padding: 15px 30px; 
+    border-radius: 50px; 
+    font-weight: 700; 
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+    border: none;
+    cursor: pointer;
+}
+.cta-button:hover { 
+    background-color: #0056b3; 
+    transform: translateY(-3px); 
+}
+/* 1. Felkészítjük a gombot a belső elemek animálására */
+.cta-button {
+    position: relative; /* Pozicionálási kontextus a belső elemeknek */
+    overflow: hidden;   /* Eltünteti a kicsúszó elemeket */
+}
+
+/* 2. Beállítjuk a szöveg és az ikon alap stílusát és az átmenetet */
+.button-text,
+.button-icon {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* 3. Az ikont alaphelyzetben elrejtjük a gombon kívülre */
+.button-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 250%); /* Kezdetben alul, a látható területen kívül */
+    opacity: 0;
+}
+
+/* 4. Amikor az egeret a gomb fölé visszük... */
+.cta-button:hover .button-text {
+    transform: translateY(-250%); /* A szöveg felfelé kicsúszik */
+    opacity: 0;
+}
+
+.cta-button:hover .button-icon {
+    transform: translate(-50%, -50%); /* Az ikon középre beúszik */
+    opacity: 1;
+}
+
+#back-to-top { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 99; 
+    font-size: 1.1rem; 
+    border: none; 
+    background-color: var(--primary-color); 
+    color: white; 
+    cursor: pointer; 
+    padding: 15px; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+    opacity: 0; 
+    visibility: hidden; 
+    transform: translateY(20px); 
+    transition: all 0.4s ease; 
+}
+#back-to-top.show { 
+    opacity: 1; 
+    visibility: visible; 
+    transform: translateY(0); 
+}
+#back-to-top:hover { 
+    background-color: var(--secondary-color); 
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* style.css */
+
+/* --- TÉMAVÁLTÓ GOMB (ÚJ VERZIÓ) --- */
+.theme-toggle {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden; /* Fontos az animációhoz */
+    transition: all 0.3s ease;
+}
+/* style.css */
+
+.theme-control-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Távolság a gomb és a szöveg között */
+}
+
+.theme-label {
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: default; /* Jelezzük, hogy a szöveg nem kattintható */
+    transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-color);
+}
+
+.theme-toggle .fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1.2rem;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+/* Alaphelyzet (világos mód): A nap látszik, a hold rejtve */
+.theme-toggle .fa-sun {
+    color: #f39c12;
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 1;
+}
+.theme-toggle .fa-moon {
+    color: var(--primary-color);
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+}
+
+/* Sötét mód: A nap rejtve, a hold látszik */
+body.dark-mode .theme-toggle .fa-sun {
+    transform: translate(-50%, -50%) rotate(-90deg);
+    opacity: 0;
+}
+body.dark-mode .theme-toggle .fa-moon {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 1;
+}
+
+
+/* ==========================================================================
+   5. SZEKCIÓK ÁLTALÁNOS STÍLUSA
+   ========================================================================== */
+section {
+    padding: 80px 0;
+    overflow-x: hidden;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 4rem;
+}
+
+
+/* ==========================================================================
+   6. EGYEDI SZEKCIÓK (HERO, SZOLGÁLTATÁSOK, PORTFÓLIÓ, KAPCSOLAT)
+   ========================================================================== */
+
+/* --- Hero Szekció --- */
+.hero {
+    background-color: var(--bg-card);
+    min-height: calc(90vh - 70px); /* Kicsit magasabbra vesszük */
+    display: flex;
+    align-items: center;
+    padding: 2rem 20px;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Két egyenlő oszlop */
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-text {
+    text-align: left; /* A szöveget balra igazítjuk */
+}
+
+.hero-text h1 { 
+    font-size: clamp(2.5rem, 5vw, 4rem); 
+}
+.hero-text .subtitle { 
+    font-size: clamp(1.2rem, 3vw, 1.8rem); 
+    color: var(--primary-color); 
+    font-weight: 600; 
+    margin-bottom: 1rem; 
+}
+.hero-text p { 
+    max-width: 500px; /* Kicsit korlátozzuk a szélességet */
+    margin: 0 0 2rem 0; /* Eltávolítjuk az auto-t */
+    font-size: 1.1rem; 
+}
+
+.hero-visual {
+    text-align: center;
+}
+
+.hero-visual img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 50%; /* Legyen kerek a kép */
+    border: 5px solid var(--bg-light);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+
+/* RESZPONZIVITÁS a hero szekcióhoz */
+/* Ezt a media query-t a style.css végén lévő reszponzív blokkhoz add hozzá */
+@media (max-width: 992px) {
+    .hero-grid {
+        grid-template-columns: 1fr; /* Mobilon egy oszlop */
+        text-align: center;
+    }
+    .hero-visual {
+        grid-row: 1; /* A kép kerüljön felülre mobilon */
+        margin-bottom: 2rem;
+    }
+    .hero-text {
+        text-align: center;
+    }
+    .hero-text p {
+        margin: 0 auto 2rem auto;
+    }
+}
+
+/* --- Szolgáltatások Szekció --- */
+.services-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px; 
+}
+.service-box { 
+    background-color: var(--bg-card); 
+    padding: 40px 30px; 
+    text-align: center; 
+    border-radius: var(--border-radius); 
+    box-shadow: 0 5px 15px var(--shadow-light); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    border-top: 4px solid var(--primary-color); 
+}
+.service-box:hover { 
+    transform: translateY(-10px); 
+    box-shadow: 0 10px 25px var(--shadow-color); 
+}
+.service-box i { 
+    font-size: 3.5rem; 
+    color: var(--primary-color); 
+    margin-bottom: 1.5rem; 
+}
+.service-box h3 { 
+    font-size: 1.5rem; 
+}
+/* style.css */
+
+/* --- Szolgáltatás Kártya Ikon Animációk --- */
+
+/* 1. Alapbeállítás: minden ikon kap egy lassú átmenetet */
+.service-box i {
+    transition: transform 0.4s ease-in-out;
+}
+
+/* 2. Az első kártya (Design) ikonja kiemelkedik */
+.service-box--design:hover i {
+    transform: translateY(-10px) scale(1.1) rotate(-5deg);
+}
+
+/* 3. A második kártya (Webshop) ikonja "elindul" */
+.service-box--shop:hover i {
+    animation: shake-horizontal 0.5s ease-in-out infinite;
+}
+
+/* 4. A harmadik kártya (Karbantartás) ikonja forog */
+.service-box--maint:hover i {
+    animation: spin 2s linear infinite;
+}
+
+/* A "shake-horizontal" animáció definíciója */
+/* Ezt a Keyframes blokkot a 8. KEYFRAME ANIMÁCIÓK szekcióhoz is teheted */
+@keyframes shake-horizontal {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+/* --- Portfólió Szekció --- */
+#portfolio-filters {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    background: none;
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+.filter-btn:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+.filter-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.portfolio-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    aspect-ratio: 3 / 2;
+}
+.portfolio-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.portfolio-card:hover img {
+    transform: scale(1.1);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    color: #ffffff;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.portfolio-card:hover .portfolio-overlay {
+    opacity: 1;
+}
+.portfolio-overlay h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+.portfolio-overlay p {
+    transform: translateY(20px);
+    transition: transform 0.4s 0.1s ease;
+    font-size: 0.9rem;
+}
+.portfolio-card:hover .portfolio-overlay h3,
+.portfolio-card:hover .portfolio-overlay p {
+    transform: translateY(0);
+}
+
+.portfolio-placeholder {
+    grid-column: 1 / -1; 
+    background-color: var(--bg-card);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+.portfolio-placeholder i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+.portfolio-placeholder h3 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+.portfolio-placeholder p {
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+/* --- Kapcsolat Szekció --- */
+#kapcsolat {
+    background-color: var(--bg-light);
+}
+.contact-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    margin-top: 3rem;
+}
+.contact-form-column h3, .calendar-column h3 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+.contact-form label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: 600; 
+    color: var(--text-secondary); 
+}
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-card);
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+.contact-info { 
+    margin-top: 3rem; 
+    background: var(--bg-card); 
+    padding: 2rem; 
+    border-radius: var(--border-radius); 
+}
+#form-status {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-weight: 600;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+#form-status.info, #form-status.success, #form-status.error {
+    display: block;
+}
+#form-status.info {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--primary-color);
+}
+#form-status.success {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--success-color);
+}
+#form-status.error {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
+}
+
+.calendar { 
+    background: var(--bg-card); 
+    padding: 1.5rem; 
+    border-radius: var(--border-radius); 
+    box-shadow: 0 5px 15px var(--shadow-light); 
+}
+.calendar-header { 
+    text-align: center; 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+    margin-bottom: 1rem; 
+    color: var(--text-color); 
+}
+.calendar-weekdays, .calendar-days { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px; 
+}
+.calendar-weekdays div { 
+    text-align: center; 
+    font-weight: 700; 
+    color: var(--text-secondary); 
+    font-size: 0.9rem; 
+}
+.calendar-days .day { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 40px; 
+    border-radius: 50%; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+.day.available { 
+    background-color: rgba(40, 167, 69, 0.15); 
+    color: var(--success-color); 
+    font-weight: 600; 
+}
+.day.unavailable { 
+    color: var(--text-secondary); 
+    opacity: 0.5; 
+    text-decoration: line-through; 
+}
+.day.today { 
+    border: 2px solid var(--primary-color); 
+}
+.day.empty { 
+    background-color: transparent; 
+}
+
+.calendar-legend { 
+    margin-top: 1.5rem; 
+}
+.calendar-legend p { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 0.5rem; 
+}
+.calendar-legend .legend-color { 
+    display: inline-block; 
+    width: 15px; 
+    height: 15px; 
+    border-radius: 50%; 
+    margin-right: 10px; 
+}
+.legend-color.available { 
+    background-color: rgba(40, 167, 69, 0.5); 
+}
+.legend-color.unavailable { 
+    background-color: var(--text-secondary); 
+    opacity: 0.5; 
+}
+
+
+/* ==========================================================================
+   7. SÜTI SÁV ÉS LÁBLÉC
+   ========================================================================== */
+
+#cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-card);
+    box-shadow: 0 -2px 10px var(--shadow-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2000;
+    transform: translateY(100%);
+    transition: transform 0.5s ease-in-out;
+}
+#cookie-consent-banner.show {
+    transform: translateY(0);
+}
+#cookie-consent-banner p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+#cookie-consent-banner a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+#cookie-consent-accept {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 2rem;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+#cookie-consent-accept:hover {
+    background-color: #0056b3;
+}
+
+footer { 
+    background-color: #212529; 
+    color: #ffffff; 
+    text-align: center; 
+    padding: 2rem 0; 
+    margin-top: 40px; 
+}
+
+
+/* ==========================================================================
+   8. KEYFRAME ANIMÁCIÓK
+   ========================================================================== */
+@keyframes pulse {
+    0%   { transform: scale(1); opacity: 0.7; }
+    50%  { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.7; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
+/* Gépelési animáció kurzora */
+.subtitle.typing-done::after {
+    content: '|';
+    margin-left: 5px;
+    font-weight: 400;
+    animation: blink 1s infinite;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   9. RESZPONZIVITÁS (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Általános mobil stílusok */
+    .section-title { font-size: 2.2rem; }
+
+    /* Navigáció mobilon */
+    .logo a { font-size: 1.5rem; }
+        .logo img {
+        height: 40px; /* Mobilon legyen kicsit kisebb */
+    }
+    .mobile-menu-toggle { display: block; }
+    .main-nav-links { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        width: 100%; 
+        background-color: var(--bg-card); 
+        box-shadow: 0 5px 10px var(--shadow-color); 
+    }
+    .main-nav-links.active { display: block; }
+    .main-nav-links ul { flex-direction: column; padding: 1rem 0; }
+    .main-nav-links li { text-align: center; }
+    .main-nav-links a { padding: 1rem 0; display: block; width: 100%; }
+    .main-nav-links a::after { bottom: 5px; left: 50%; transform: translateX(-50%); }
+    
+    /* Hero szekció mobilon */
+    .hero-content h1 { font-size: 2.5rem; }
+
+    /* Süti sáv mobilon */
+    #cookie-consent-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    #cookie-consent-banner p {
+        margin-bottom: 1rem;
+    }
+    #cookie-consent-accept {
+        width: 100%;
+        margin-left: 0;
+    }
+        .theme-label {
+        display: none;
+    }
+}

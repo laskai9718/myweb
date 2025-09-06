@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>laskaiweb</title>
+    <meta name="description" content="Professzionális weboldal készítés és fejlesztés. Modern, reszponzív és keresőbarát megoldások.">
+    <meta name="keywords" content="weboldal készítés, weblapszerkesztő, webfejlesztés, reszponzív design, Laskai Márk Dániel">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <nav class="container">
+            <div class="logo">
+                <a><img src="logo.png" alt="laskaiweb logó" height="50">laskaiweb</a>
+            </div>
+
+            <div class="main-nav-links" id="main-nav-links">
+                <ul>
+                    <li><a href="#bemutatkozas">Főoldal</a></li>
+                    <li><a href="#szolgaltatasok">Szolgáltatások</a></li>
+                    <li><a href="#referencia">Referencia</a></li>
+                    <li><a href="#kapcsolat">Kapcsolat</a></li>
+                    <li><a href="#rólam">Rólam</a></li>
+                </ul>
+            </div>
+
+<div class="nav-controls">
+<div class="theme-control-wrapper">
+    <button class="theme-toggle" id="theme-toggle" title="Sötét/világos mód váltása">
+        <i class="fas fa-sun"></i>
+        <i class="fas fa-moon"></i>
+    </button>
+    <span class="theme-label"></span>
+</div>
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menü megnyitása">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+        </nav>
+    </header>
+
+    <main>
+<section id="bemutatkozas" class="hero">
+    <div class="container hero-grid">
+        <div class="hero-text">
+            <h1 data-aos="fade-right">Laskai Márk Dániel</h1>
+            <p class="subtitle" data-aos="fade-right" data-aos-delay="100">Weblapszerkesztő & Fejlesztő</p>
+            <p data-aos="fade-right" data-aos-delay="200">Modern, letisztult és felhasználóbarát weboldalakat készítek, amelyek segítik vállalkozásod növekedését.</p>
+<a href="#kapcsolat" class="cta-button" data-aos="fade-up" data-aos-delay="400">
+    <span class="button-text">Vegyük fel a kapcsolatot!</span>
+    <i class="button-icon fas fa-envelope"></i>
+</a>
+        </div>
+        <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
+            <img src="profil.JPG" alt="Laskai Márk Dániel portréja">
+        </div>
+    </div>
+</section>
+
+        <section id="szolgaltatasok">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Szolgáltatásaim</h2>
+                <div class="services-grid">
+    <div class="service-box service-box--design" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-pen-nib"></i>
+        <h3>Weboldal Készítés</h3>
+        <p>Egyedi bemutatkozó oldalak és céges weboldalak tervezése és kivitelezése a legmodernebb technológiákkal.</p>
+    </div>
+    <div class="service-box service-box--shop" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>Webshop Fejlesztés</h3>
+        <p>Felhasználóbarát és hatékony webáruházak létrehozása, hogy termékeidet sikeresen értékesíthesd online.</p>
+    </div>
+    <div class="service-box service-box--maint" data-aos="fade-up" data-aos-delay="300">
+        <i class="fa-solid fa-gear"></i>
+        <h3>Karbantartás & Üzemeltetés</h3>
+        <p>Meglévő weboldalak frissítése, biztonsági mentése és technikai támogatása a zökkenőmentes működésért.</p>
+    </div>
+</div>
+            </div>
+        </section>
+
+        <section id="referencia">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Referencia</h2>
+                <p class="subtitle" data-aos="fade-up" data-aos-delay="100">Néhány példa az általam készített weboldalakra</p>
+                
+                <div id="portfolio-filters" data-aos="fade-up" data-aos-delay="200"></div>
+                
+                <div id="portfolio-grid" class="services-grid"></div>
+
+            </div>
+        </section>
+
+        <section id="kapcsolat">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Kapcsolat & Elérhetőség</h2>
+                <p class="contact-intro" data-aos="fade-up" data-aos-delay="100">Kérdésed van, vagy árajánlatot szeretnél kérni? Töltsd ki az űrlapot, vagy keress bizalommal!</p>
+                
+                <div class="contact-grid">
+                    <div class="contact-form-column" data-aos="fade-right" data-aos-delay="200">
+                        <h3>Küldjön üzenetet</h3>
+                        <form action="https://formspree.io/f/mgvlpbge" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Név:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail cím:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Üzenet:</label>
+                                <textarea id="message" name="message" rows="6" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-button">
+                                <span class="button-text">Üzenet küldése</span>
+                                <i class="button-icon fas fa-paper-plane"></i> </button>
+                            <div id="form-status"></div>
+                        </form>
+
+                        <div class="contact-info">
+                            <h3>Közvetlen elérhetőségek</h3>
+                            <p><i class="fas fa-envelope"></i> <a href="mailto:laskai9718@gmail.com">laskai9718@gmail.com</a></p>
+                            <p><i class="fas fa-phone"></i> <a href="tel:+36308458971">+36 308458971</a></p>
+                        </div>
+                    </div>
+
+                    <div class="calendar-column" data-aos="fade-left" data-aos-delay="200">
+                        <h3>Elérhetőségem</h3>
+                        <div class="calendar">
+                            <div class="calendar-header">
+                                <span id="month-year"></span>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>H</div><div>K</div><div>Sze</div><div>Cs</div><div>P</div><div>Szo</div><div>V</div>
+                            </div>
+                            <div class="calendar-days" id="calendar-days">
+                                </div>
+                        </div>
+                        <div class="calendar-legend">
+                            <p><span class="legend-color available"></span> Elérhető nap</p>
+                            <p><span class="legend-color unavailable"></span> Foglalt / Nem elérhető</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="rólam">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Rólam</h2>
+                <div class="about-me" data-aos="fade-up" data-aos-delay="100">
+                    <img src="images/profile.jpg" alt="Laskai Márk Dániel" class="profile-pic">
+                    <div class="about-text">
+                        <p>Üdvözöllek! Laskai Márk Dániel vagyok, lelkes weblapszerkesztő és fejlesztő. Szenvedélyem a weboldalak készítése, amelyek nemcsak esztétikusak, hanem funkcionálisak is. Célom, hogy ügyfeleim számára olyan online jelenlétet hozzak létre, amely segíti őket üzleti céljaik elérésében.</p>
+                        <p>Még nincs sok tapasztalatom de napról napra ez változik. Hiszem, hogy minden napi szorgalmas tanulás meghozza a gyümölcsét. </p>
+                        <p>Ha szeretnéd, hogy vállalkozásod kitűnjön a versenytársak közül, és professzionális weboldalt szeretnél, ne habozz kapcsolatba lépni velem!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Laskai Márk Dániel. Minden jog fenntartva.</p>
+    </footer>
+
+    <button id="back-to-top" title="Vissza a lap tetejére">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div id="cookie-consent-banner">
+        <p>Ez a weboldal sütiket (cookie-kat) használ a legjobb felhasználói élmény biztosítása érdekében. <a href="#">Tudj meg többet</a></p>
+        <button id="cookie-consent-accept">Elfogadom</button>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
