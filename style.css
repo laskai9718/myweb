@@ -208,31 +208,58 @@ nav {
     opacity: 1;
 }
 
+/* style.css */
+
 #back-to-top { 
     position: fixed; 
     bottom: 20px; 
     right: 20px; 
     z-index: 99; 
-    font-size: 1.1rem; 
+    width: 55px;  /* <-- Új */
+    height: 55px; /* <-- Új */
     border: none; 
-    background-color: var(--primary-color); 
-    color: white; 
+    background-color: transparent; /* <-- Módosítva */
+    color: var(--primary-color);   /* <-- Módosítva */
     cursor: pointer; 
-    padding: 15px; 
+    padding: 0; /* <-- Módosítva */
     border-radius: 50%; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
     opacity: 0; 
     visibility: hidden; 
     transform: translateY(20px); 
     transition: all 0.4s ease; 
 }
+
 #back-to-top.show { 
     opacity: 1; 
     visibility: visible; 
     transform: translateY(0); 
 }
+
 #back-to-top:hover { 
-    background-color: var(--secondary-color); 
+    background-color: var(--shadow-color); /* <-- Módosítva */
+    color: var(--text-color);
+}
+
+/* Az új SVG és ikon stílusai */
+#back-to-top .fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+#back-to-top .progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(-90deg); /* Hogy a kör fentről kezdjen telítődni */
+}
+
+#back-to-top .progress-ring__circle {
+    stroke: var(--primary-color);
+    transition: stroke-dashoffset 0.2s ease;
 }
 
 .nav-controls {
@@ -930,7 +957,7 @@ footer {
         top: 100%; 
         left: 0; 
         width: 100%; 
-        background-color: var(--bg-card); 
+        background-color: var(--header-bg-color);
         box-shadow: 0 5px 10px var(--shadow-color); 
     }
     .main-nav-links.active { 

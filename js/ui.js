@@ -1,4 +1,4 @@
-// js/ui.js (JAVÍTOTT VERZIÓ)
+// js/ui.js (FRISSÍTETT VERZIÓ)
 
 export function initUI() {
     // Header zsugorítása
@@ -9,16 +9,41 @@ export function initUI() {
         });
     }
 
-    // Vissza a tetejére gomb
+    // --- INNEN KEZDŐDIK A MÓDOSÍTOTT RÉSZ ---
+
+    // Vissza a tetejére gomb (ÚJ, GÖRGETÉSJELZŐS VERZIÓ)
     const backToTopButton = document.getElementById('back-to-top');
     if (backToTopButton) {
+        const progressCircle = backToTopButton.querySelector('.progress-ring__circle');
+        const radius = progressCircle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+
+        const setProgress = (percent) => {
+            const offset = circumference - (percent / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
         window.addEventListener('scroll', () => {
+            // Gomb megjelenítése/elrejtése
             backToTopButton.classList.toggle('show', window.scrollY > 300);
+
+            // Folyamatjelző frissítése
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollTop = window.scrollY;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            
+            setProgress(scrollPercent);
         });
+
         backToTopButton.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
+    // --- EDDIG TART A MÓDOSÍTOTT RÉSZ ---
 
     // Mobil menü
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
