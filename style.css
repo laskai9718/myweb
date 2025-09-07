@@ -13,6 +13,7 @@
     --border-color: #6DA5C0;
     --success-color: #1a7431;
     --error-color: #dc3545;
+    --form-input-bg: #ffffff;
 
     /* --- Árnyékok --- */ 
     --shadow-color: rgba(0, 0, 0, 0.1);
@@ -36,6 +37,7 @@ body.dark-mode {
     --success-color: #5dd27c;
     --error-color: #ff6b7e;
     background-color: #121212; /* Sötét alapszín */
+    --form-input-bg: #2c2c2e;
 
     /* --- Sötét Mód Árnyékai --- */
     --shadow-color: rgba(255, 255, 255, 0.08);
@@ -619,11 +621,12 @@ section {
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    background-color: var(--bg-light);
+    background-color: var(--form-input-bg);
     color: var(--text-color);
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
 }
 
 .contact-form input:focus,
