@@ -737,22 +737,46 @@ section {
 .contact-info-bottom i {
     margin-right: 0.5rem;
 }
+/* Ezt a CSS-t add hozzá a style.css-hez a kapcsolat űrlap stílusaihoz */
+
+.form-group .error-message {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 5px;
+    display: none; /* Alapból rejtett */
+}
+
+.form-group.error .error-message {
+    display: block; /* Hiba esetén láthatóvá tesszük */
+}
+
+.form-group.error input,
+.form-group.error textarea {
+    border-color: var(--error-color); /* A beviteli mező kerete piros lesz */
+}
 
 /* ==========================================================================
    7. SÜTI SÁV ÉS LÁBLÉC
    ========================================================================== */
 
+/* Ezt a teljes blokkot cseréld le a style.css fájlodban */
 #cookie-consent-banner {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
+    box-sizing: border-box; /* ÚJ: Kulcsfontosságú a pontos méretezéshez! */
     background-color: var(--bg-card);
     box-shadow: 0 -2px 10px var(--shadow-color);
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
+    
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center; /* MÓDOSÍTVA: középre rendezzük, nem széthúzzuk */
+    flex-wrap: wrap;         /* MEGTARTVA: mobilon jól jön a sortörés */
+    gap: 1.5rem;             /* MEGTARTVA: térköz az elemek között */
+
     z-index: 2000;
     transform: translateY(100%);
     transition: transform 0.5s ease-in-out;
@@ -777,7 +801,7 @@ section {
     border-radius: 50px;
     cursor: pointer;
     font-weight: 600;
-    margin-left: 2rem;
+    margin-left: 0rem;
     white-space: nowrap;
     transition: background-color 0.3s ease;
 }
@@ -1002,17 +1026,144 @@ footer {
         padding: 1.5rem;
     }
 
-    /* Süti sáv mobilon */
+/* --- SÜTI SÁV MOBILON (JAVÍTOTT VERZIÓ) --- */
     #cookie-consent-banner {
+        /* Vertikális elrendezés, hogy egymás alá kerüljenek az elemek */
         flex-direction: column;
         text-align: center;
-        padding: 1rem;
+        padding: 1.5rem 1rem; /* Kicsit több függőleges hely */
+        gap: 1rem; /* Térköz a szöveg és a gomb között */
     }
+
     #cookie-consent-banner p {
-        margin-bottom: 1rem;
+        /* Ne legyen extra alsó margó, a gap kezeli a térközt */
+        margin-bottom: 0;
     }
+
     #cookie-consent-accept {
+        /* A gomb foglalja el a teljes rendelkezésre álló szélességet */
         width: 100%;
-        margin-left: 0;
+        margin-left: 0; /* Felülírjuk az asztali nézetet */
+    }
+}
+/* ==========================================================================
+   10. MODÁLIS ABLAK STÍLUSOK
+   ========================================================================== */
+
+/* A teljes képernyőt lefedő, áttetsző háttér (overlay) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Sötét, áttetsző réteg */
+    z-index: 2000; /* Legyen minden más felett */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    /* Alapból rejtett, finom átmenettel */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+/* Ez az az osztály, amit JS-sel fogunk hozzáadni, hogy láthatóvá tegyük */
+.modal-overlay.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+
+/* A felugró ablak tartalmi része */
+.modal-content {
+    background-color: var(--header-bg-color); /* A CSS változóidat használjuk! */
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 20px var(--shadow-color);
+    max-width: 650px; /* Ne legyen túl széles nagy képernyőn */
+    width: 100%;
+    position: relative; /* A bezárás gomb pozicionálásához kell */
+    line-height: 1.8;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+/* Bezárás gomb (a '×' jel) */
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-close-button:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+/* ==========================================================================
+   AKADÁLYMENTESÍTÉS: EGYEDI FÓKUSZ STÍLUSOK
+   ========================================================================== */
+
+/*
+  Ez a modern :focus-visible pszeudo-osztály. A böngésző elég okos
+  ahhoz, hogy ezt a stílust csak akkor alkalmazza, ha billentyűzettel
+  navigálunk. Ha egérrel kattintasz egy gombra, nem fog megjelenni.
+  Így egyszerre akadálymentes és esztétikus az oldal.
+*/
+*:focus-visible {
+    /* Létrehozunk egy kétszínű "glória" hatást a CSS változóid segítségével */
+    box-shadow: 0 0 0 2px var(--bg-light), 0 0 0 4px var(--primary-color);
+    outline: none;
+    transition: box-shadow 0.2s ease;
+    border-radius: var(--border-radius);
+}   
+/* ==========================================================================
+   TÖLTŐKÉPERNYŐ (PRELOADER)
+   ========================================================================== */
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999; /* Legyen mindennél feljebb */
+    background-color: var(--header-bg-color); /* Használjuk a meglévő színeidet */
+    display: grid;
+    place-items: center; /* Ez egy trükk a tökéletes középre igazításhoz */
+    transition: opacity 0.75s ease, visibility 0.75s ease; /* Finom eltűnés */
+}
+
+#preloader.preloader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid var(--secondary-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* A pörgő animáció logikája */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }

@@ -1,4 +1,4 @@
-// js/ui.js (FRISSÍTETT VERZIÓ)
+// js/ui.js (TELJES, FRISSÍTETT VERZIÓ)
 
 export function initUI() {
     // Header zsugorítása
@@ -9,9 +9,7 @@ export function initUI() {
         });
     }
 
-    // --- INNEN KEZDŐDIK A MÓDOSÍTOTT RÉSZ ---
-
-    // Vissza a tetejére gomb (ÚJ, GÖRGETÉSJELZŐS VERZIÓ)
+    // Vissza a tetejére gomb (GÖRGETÉSJELZŐS VERZIÓ)
     const backToTopButton = document.getElementById('back-to-top');
     if (backToTopButton) {
         const progressCircle = backToTopButton.querySelector('.progress-ring__circle');
@@ -27,14 +25,10 @@ export function initUI() {
         }
 
         window.addEventListener('scroll', () => {
-            // Gomb megjelenítése/elrejtése
             backToTopButton.classList.toggle('show', window.scrollY > 300);
-
-            // Folyamatjelző frissítése
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollTop = window.scrollY;
             const scrollPercent = (scrollTop / scrollHeight) * 100;
-            
             setProgress(scrollPercent);
         });
 
@@ -42,8 +36,6 @@ export function initUI() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-
-    // --- EDDIG TART A MÓDOSÍTOTT RÉSZ ---
 
     // Mobil menü
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
@@ -59,7 +51,7 @@ export function initUI() {
         });
     }
     
-    // Scrollspy (menüpont kiemelése) - JAVÍTVA
+    // Scrollspy (menüpont kiemelése)
     const sections = document.querySelectorAll('main section[id]');
     const navLinks = document.querySelectorAll('.main-nav-links a');
     if (sections.length > 0 && navLinks.length > 0) {
@@ -90,6 +82,32 @@ export function initUI() {
         window.addEventListener('scroll', highlightMenu);
         highlightMenu();
     }
+
+    // === ÚJ RÉSZ: MODÁLIS ABLAK KEZELÉSE ===
+    const openModalLink = document.getElementById('open-privacy-modal');
+    const modalOverlay = document.getElementById('privacy-modal-overlay');
+    const closeModalButton = document.getElementById('modal-close-button');
+
+    if (openModalLink && modalOverlay && closeModalButton) {
+        // Eseményfigyelő a "Tudj meg többet" linkre: megnyitja a modált
+        openModalLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalOverlay.classList.add('show-modal');
+        });
+
+        // Eseményfigyelő a bezárás gombra: bezárja a modált
+        closeModalButton.addEventListener('click', () => {
+            modalOverlay.classList.remove('show-modal');
+        });
+
+        // Eseményfigyelő a háttérre kattintásra: szintén bezárja a modált
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('show-modal');
+            }
+        });
+    }
+    // === EDDIG TART AZ ÚJ RÉSZ ===
 
     // Süti sáv
     const consentBanner = document.getElementById('cookie-consent-banner');

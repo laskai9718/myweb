@@ -9,10 +9,17 @@
     <meta name="keywords" content="weboldal készítés, weblapszerkesztő, webfejlesztés, reszponzív design, Laskai Márk Dániel">
     
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://laskai9718.github.io/myweb/">
-    <meta property="og:title" content="Laskai Márk Dániel - Portfólió">
-    <meta property="og:description" content="Professzionális weboldal készítés és fejlesztés.">
+    <meta property="og:locale" content="hu_HU">
+    <meta property="og:site_name" content="Laskai Márk Dániel - Portfólió">
+    <meta property="og:url" content="https://laskaiweb.hu">
+
+    <meta property="og:title" content="Laskai Márk Dániel - Weblapszerkesztő & Fejlesztő">
+    <meta property="og:description" content="Modern, letisztult és felhasználóbarát weboldalakat készítek, amelyek segítik vállalkozásod növekedését.">
+
     <meta property="og:image" content="https://laskai9718.github.io/myweb/preview-image.jpg">
+    <meta property="og:image:alt" content="Laskai Márk Dániel portfólió weboldalának előnézeti képe">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +31,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+        <div id="preloader">
+        <div class="spinner"></div>
+    </div>
                 <div id="tsparticles"></div>
 
     <header id="main-header">
@@ -36,17 +46,17 @@
 
             <div class="main-nav-links" id="main-nav-links">
                 <ul>
-                    <li><a href="#bemutatkozas">Főoldal</a></li>
-                    <li><a href="#szolgaltatasok">Szolgáltatások</a></li>
-                    <li><a href="#referencia">Referencia</a></li>
-                    <li><a href="#rolam">Rólam</a></li>
-                    <li><a href="#kapcsolat">Kapcsolat</a></li>
+                    <li><a href="#bemutatkozas"tabindex="0">Főoldal</a></li>
+                    <li><a href="#szolgaltatasok"tabindex="0">Szolgáltatások</a></li>
+                    <li><a href="#referencia"tabindex="0">Referencia</a></li>
+                    <li><a href="#rolam"tabindex="0">Rólam</a></li>
+                    <li><a href="#kapcsolat"tabindex="0">Kapcsolat</a></li>
                 </ul>
             </div>
 
             <div class="nav-controls">
                 <div class="theme-control-wrapper">
-                    <button class="theme-toggle" id="theme-toggle" title="Sötét/világos mód váltása">
+                    <button class="theme-toggle" id="theme-toggle" title="Sötét/világos mód váltása"  tabindex="0" >
                         <i class="fas fa-sun"></i>
                         <i class="fas fa-moon"></i>
                     </button>
@@ -205,6 +215,20 @@
         <p>© 2025 Laskai Márk Dániel. Minden jog fenntartva.</p>
     </footer>
 
+    <div id="privacy-modal-overlay" class="modal-overlay">
+    <div id="privacy-modal" class="modal-content" data-aos="fade-up" data-aos-duration="600">
+        <button id="modal-close-button" class="modal-close-button" aria-label="Bezárás">&times;</button>
+        <h2>Adatvédelmi Tájékoztató</h2>
+        <p>Ez a weboldal sütiket (cookie-kat) használ a felhasználói élmény javítása érdekében. A sütik kis szöveges fájlok, amelyeket a böngésződ tárol a számítógépeden.</p>
+        <p><strong>Milyen sütiket használunk?</strong></p>
+        <ul>
+            <li><strong>Munkamenet sütik:</strong> Ezek elengedhetetlenek az oldal alapvető működéséhez.</li>
+            <li><strong>Beállítási sütik:</strong> Olyan sütik, amik megjegyzik a választásaidat, például a sötét/világos mód beállítást.</li>
+        </ul>
+        <p>Az "Elfogadom" gombra kattintva hozzájárulsz ezek használatához. A beállításokat bármikor módosíthatod a böngésződben.</p>
+    </div>
+</div>
+
 <button id="back-to-top" title="Vissza a lap tetejére">
     <svg class="progress-ring" width="100%" height="100%">
         <circle class="progress-ring__circle" stroke-width="4" fill="transparent" r="24" cx="50%" cy="50%"/>
@@ -212,10 +236,11 @@
     <i class="fas fa-arrow-up"></i>
 </button>
 
-    <div id="cookie-consent-banner">
-        <p>Ez a weboldal sütiket (cookie-kat) használ a legjobb felhasználói élmény biztosítása érdekében. <a href="#">Tudj meg többet</a></p>
-        <button id="cookie-consent-accept">Elfogadom</button>
-    </div>
+<div id="cookie-consent-banner">
+    <p>Ez a weboldal sütiket (cookie-kat) használ a legjobb felhasználói élmény biztosítása érdekében. 
+    <a href="javascript:void(0)" id="open-privacy-modal">Tudj meg többet</a></p>
+    <button id="cookie-consent-accept">Elfogadom</button>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
