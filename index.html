@@ -31,36 +31,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <div id="preloader">
+    <div id="preloader">
         <div class="spinner"></div>
     </div>
-                <div id="tsparticles"></div>
+    <div id="tsparticles"></div>
 
     <header id="main-header">
         <nav class="container">
             <div class="logo">
-                <a href="#bemutatkozas">
+                <a href="#">
                     <img src="logo.png" alt="laskaiweb logó">
                 </a>
             </div>
 
             <div class="main-nav-links" id="main-nav-links">
                 <ul>
-                    <li><a href="#bemutatkozas"tabindex="0">Főoldal</a></li>
-                    <li><a href="#szolgaltatasok"tabindex="0">Szolgáltatások</a></li>
-                    <li><a href="#referencia"tabindex="0">Referencia</a></li>
-                    <li><a href="#rolam"tabindex="0">Rólam</a></li>
-                    <li><a href="#kapcsolat"tabindex="0">Kapcsolat</a></li>
+                    <li><a href="#" tabindex="0">Főoldal</a></li>
+                    <li><a href="#szolgaltatasok" tabindex="0">Szolgáltatások</a></li>
+                    <li><a href="#referencia" tabindex="0">Referencia</a></li>
+                    <li><a href="#rolam" tabindex="0">Rólam</a></li>
+                    <li><a href="#kapcsolat" tabindex="0">Kapcsolat</a></li>
                 </ul>
             </div>
 
             <div class="nav-controls">
-                <div class="theme-control-wrapper">
-                    <button class="theme-toggle" id="theme-toggle" title="Sötét/világos mód váltása"  tabindex="0" >
+                <div class="theme-control-wrapper tooltip-container">
+                    <button class="theme-toggle" id="theme-toggle" title="Sötét/világos mód váltása" tabindex="0">
                         <i class="fas fa-sun"></i>
                         <i class="fas fa-moon"></i>
                     </button>
-                    <span class="theme-label"></span>
+                    <span class="theme-label"></span> 
+                    <span class="tooltip-bottom">Kattints a sötét/világos mód váltásához</span>
                 </div>
                 <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menü megnyitása">
                     <i class="fas fa-bars"></i>
@@ -73,16 +74,11 @@
         <section id="bemutatkozas" class="hero"> 
             <div class="container hero-grid">
                 <div class="hero-text">
-                    <h1 data-aos="fade-right">Laskai Márk Dániel</h1>
-                    <p class="subtitle" data-aos="fade-right" data-aos-delay="100">Weblapszerkesztő & Fejlesztő</p>
-                    <p data-aos="fade-right" data-aos-delay="200">Modern, letisztult és felhasználóbarát weboldalakat készítek, amelyek segítik vállalkozásod növekedését.</p>
-                    <a href="#kapcsolat" class="cta-button" data-aos="fade-up" data-aos-delay="400">
-                        <span class="button-text">Vegyük fel a kapcsolatot!</span>
-                        <i class="button-icon fas fa-envelope"></i>
-                    </a>
+                    <h1 data-aos="fade-right" data-rellax-speed="-2">Laskai Márk Dániel</h1> 
+                    <p class="subtitle" data-aos="fade-right" data-aos-delay="100" data-rellax-speed="-1">Weblapszerkesztő & Fejlesztő</p>
                 </div>
                 <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
-                    <img src="profil.JPG" alt="Laskai Márk Dániel portréja">
+                    <img src="profil.JPG" alt="Laskai Márk Dániel portréja" data-rellax-speed="2"> 
                 </div>
             </div>
         </section>
@@ -135,7 +131,7 @@
                 <div class="skills-section" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="skills-title">Technológiák, amiket használok</h3>
                     <div class="skills-grid">
-                        <div class="skill-item"><i class="devicon-html5-plain-wordmark colored"></i><span>HTML5</span></div>
+                        <div class="skill-item tooltip-container"><i class="devicon-html5-plain-wordmark colored"></i><span>HTML5</span><span class="tooltip-text">A modern weboldalak alapja.</span></div>
                         <div class="skill-item"><i class="devicon-css3-plain-wordmark colored"></i><span>CSS3</span></div>
                         <div class="skill-item"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></div>
                         <div class="skill-item"><i class="devicon-git-plain colored"></i><span>Git</span></div>
@@ -149,13 +145,14 @@
         <section id="kapcsolat">
     <div class="container">
         <h2 class="section-title" data-aos="fade-up">Vegyük fel a kapcsolatot!</h2>
-        <p class="contact-intro" data-aos="fade-up" data-aos-delay="100">Kérdésed van, vagy árajánlatot szeretnél? Írj nekem, és vágjunk is bele a közös munkába!</p>
+        <p class="contact-intro" data-aos="fade-up" data-aos-delay="100">Kérdésed van, vagy árajánlatot szeretnél? Írj nekem!</p>
         
         <div class="contact-grid">
-            
             <div class="contact-form-container" data-aos="fade-right" data-aos-delay="200">
                 <h3>Küldj üzenetet</h3>
                 <form action="https://formspree.io/f/mgvlpbge" method="POST" class="contact-form">
+                    <input type="hidden" name="_subject" value="Új üzenet a portfólió weboldalról!">
+                    
                     <div class="form-group">
                         <label for="name">Név:</label>
                         <input type="text" id="name" name="name" required>
@@ -172,39 +169,31 @@
                         <span class="button-text">Üzenet küldése</span>
                         <i class="button-icon fas fa-paper-plane"></i>
                     </button>
-                    <div id="form-status"></div>
                 </form>
             </div>
 
             <div class="contact-info-panel" data-aos="fade-left" data-aos-delay="300">
-                
-                <div class="info-block">
-                    <h4>Direkt Elérhetőségek</h4>
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <span>E-mail</span>
-                            <a href="mailto:laskai9718@gmail.com">laskai9718@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <span>Telefon</span>
-                            <a href="tel:+36308458971">+36 30 845 8971</a>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="info-block">
                     <h4>A közös munka menete</h4>
                     <div class="process-steps">
-                        <div class="step"><div class="step-number">1</div><p>Kapcsolatfelvétel és igényfelmérés.</p></div>
-                        <div class="step"><div class="step-number">2</div><p>Személyre szabott árajánlat készítése.</p></div>
-                        <div class="step"><div class="step-number">3</div><p>Tervezés, fejlesztés és átadás.</p></div>
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <p><strong>Kapcsolatfelvétel:</strong> Töltsd ki az űrlapot az igényeid rövid leírásával.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <p><strong>Egyeztetés:</strong> 24 órán belül válaszolok, és pontosítjuk a részleteket.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <p><strong>Ajánlat:</strong> Személyre szabott árajánlatot és ütemtervet küldök.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <p><strong>Megvalósítás:</strong> Elkezdődik a fejlesztés, folyamatos visszajelzések mellett.</p>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -216,35 +205,35 @@
     </footer>
 
     <div id="privacy-modal-overlay" class="modal-overlay">
-    <div id="privacy-modal" class="modal-content" data-aos="fade-up" data-aos-duration="600">
-        <button id="modal-close-button" class="modal-close-button" aria-label="Bezárás">&times;</button>
-        <h2>Adatvédelmi Tájékoztató</h2>
-        <p>Ez a weboldal sütiket (cookie-kat) használ a felhasználói élmény javítása érdekében. A sütik kis szöveges fájlok, amelyeket a böngésződ tárol a számítógépeden.</p>
-        <p><strong>Milyen sütiket használunk?</strong></p>
-        <ul>
-            <li><strong>Munkamenet sütik:</strong> Ezek elengedhetetlenek az oldal alapvető működéséhez.</li>
-            <li><strong>Beállítási sütik:</strong> Olyan sütik, amik megjegyzik a választásaidat, például a sötét/világos mód beállítást.</li>
-        </ul>
-        <p>Az "Elfogadom" gombra kattintva hozzájárulsz ezek használatához. A beállításokat bármikor módosíthatod a böngésződben.</p>
+        <div id="privacy-modal" class="modal-content">
+            <button id="modal-close-button" class="modal-close-button" aria-label="Bezárás">&times;</button>
+            <h2>Adatvédelmi Tájékoztató</h2>
+            <p>Ez a weboldal alapvető sütiket (cookie-kat) használ a felhasználói élmény javítása érdekében.</p>
+            <p><strong>Milyen sütiket használunk?</strong></p>
+            <ul>
+                <li><strong>Munkamenet sütik:</strong> Az oldal működéséhez szükségesek.</li>
+                <li><strong>Beállítási sütik:</strong> Pl. a sötét/világos mód megjegyzése.</li>
+            </ul>
+            <p>A weboldal használatával elfogadod ezeket a feltételeket.</p>
+        </div>
     </div>
-</div>
 
-<button id="back-to-top" title="Vissza a lap tetejére">
-    <svg class="progress-ring" width="100%" height="100%">
-        <circle class="progress-ring__circle" stroke-width="4" fill="transparent" r="24" cx="50%" cy="50%"/>
-    </svg>
-    <i class="fas fa-arrow-up"></i>
-</button>
+    <button id="back-to-top" title="Vissza a lap tetejére">
+        <svg class="progress-ring" width="100%" height="100%">
+            <circle class="progress-ring__circle" stroke-width="4" fill="transparent" r="24" cx="50%" cy="50%"/>
+        </svg>
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-<div id="cookie-consent-banner">
-    <p>Ez a weboldal sütiket (cookie-kat) használ a legjobb felhasználói élmény biztosítása érdekében. 
-    <a href="javascript:void(0)" id="open-privacy-modal">Tudj meg többet</a></p>
-    <button id="cookie-consent-accept">Elfogadom</button>
-</div>
+    <div id="cookie-consent-banner">
+        <p>Ez a weboldal sütiket használ a legjobb élmény érdekében. 
+        <a href="javascript:void(0)" id="open-privacy-modal">Részletek</a></p>
+        <button id="cookie-consent-accept">Elfogadom</button>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dixonandmoe/rellax@master/rellax.min.js"></script>
     <script type="module" src="js/main.js"></script>
-
 </body>
 </html>
