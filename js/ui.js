@@ -89,16 +89,18 @@ export function initUI() {
     const closeModalButton = document.getElementById('modal-close-button');
 
     if (openModalLink && modalOverlay && closeModalButton) {
-        // Eseményfigyelő a "Tudj meg többet" linkre: megnyitja a modált
+        // A modál megnyitásakor:
         openModalLink.addEventListener('click', (e) => {
             e.preventDefault();
             modalOverlay.classList.add('show-modal');
+            document.body.style.overflow = 'hidden'; // Háttér görgetés letiltása
         });
 
-        // Eseményfigyelő a bezárás gombra: bezárja a modált
-        closeModalButton.addEventListener('click', () => {
+        // A bezáráskor (minden bezáró eseménynél):
+        const closeModal = () => {
             modalOverlay.classList.remove('show-modal');
-        });
+            document.body.style.overflow = ''; // Visszaállítja az eredeti állapotot
+        };
 
         // Eseményfigyelő a háttérre kattintásra: szintén bezárja a modált
         modalOverlay.addEventListener('click', (e) => {

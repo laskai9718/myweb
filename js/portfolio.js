@@ -7,19 +7,18 @@ const portfolioGrid = document.getElementById('portfolio-grid');
 const portfolioFilters = document.getElementById('portfolio-filters');
 
 function displayProjects(projectList) {
-    portfolioGrid.innerHTML = ''; 
-    projectList.forEach(project => {
-        const projectCard = `
-            <div class="portfolio-card" data-aos="fade-up">
-                <img src="${project.image}" alt="${project.title}">
-                <div class="portfolio-overlay">
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                </div>
+    // Először legeneráljuk az összes HTML stringet egy tömbbe, majd összefűzzük
+    const htmlContent = projectList.map(project => `
+        <div class="portfolio-card" data-aos="fade-up">
+            <img src="${project.image}" alt="${project.title}">
+            <div class="portfolio-overlay">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
             </div>
-        `;
-        portfolioGrid.innerHTML += projectCard;
-    });
+        </div>
+    `).join(''); // Egyetlen hosszú stringet kapunk
+    
+    portfolioGrid.innerHTML = htmlContent; // Csak egyszer nyúlunk a DOM-hoz
 }
 
 // Ezt a funkciót fogjuk exportálni, hogy a main.js meghívhassa
