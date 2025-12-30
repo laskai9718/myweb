@@ -972,29 +972,43 @@ footer {
     .mobile-menu-toggle { display: block; }
     
     .main-nav-links { 
-        display: none; 
-        position: absolute; 
-        top: 100%; 
-        left: 0; 
-        width: 100%; 
-        height: 100vh; /* Teljes kitöltés */
+        display: block; /* Hogy az animáció működjön */
+        position: fixed; /* Fix pozíció a görgetés ellen */
+        top: 0; 
+        right: -100%; /* Alapból kitoljuk a képernyőről jobbra */
+        width: 80%; /* Ne takarja el az egészet, csak a nagy részét */
+        height: 100vh; 
         background-color: var(--header-bg-color);
         backdrop-filter: blur(20px);
-        box-shadow: 0 10px 15px var(--shadow-color);
-        z-index: 999;
+        box-shadow: -5px 0 15px var(--shadow-color);
+        z-index: 1001;
+        transition: right 0.4s ease-in-out; /* Simább csúszás */
+        padding-top: 80px; /* Hely a logónak/bezárónak */
     }
     
-    .main-nav-links.active { display: block; }
+    /* Amikor aktív, becsúszik */
+    .main-nav-links.active { 
+        right: 0; 
+    }
     
     .main-nav-links ul { 
         flex-direction: column; 
-        padding: 2rem 0; 
-        gap: 10px;
+        align-items: center; /* Középre rendezett szöveg */
+        gap: 20px;
     }
     
     .main-nav-links a { 
-        font-size: 1.3rem;
-        padding: 1.5rem; 
+        font-size: 1.5rem;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Megjelenítjük a toggle gombot és biztosítjuk, hogy felül legyen */
+    .mobile-menu-toggle { 
+        display: block; 
+        position: relative;
+        z-index: 1002;
     }
 
     .theme-label { display: none; }

@@ -37,19 +37,42 @@ export function initUI() {
         });
     }
 
-    // Mobil menü
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mainNavLinks = document.getElementById('main-nav-links');
-    if (mobileMenuToggle && mainNavLinks) {
-        mobileMenuToggle.addEventListener('click', () => {
-            mainNavLinks.classList.toggle('active');
+ // Mobil menü kezelése
+const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+const mainNavLinks = document.getElementById('main-nav-links');
+const menuIcon = mobileMenuToggle.querySelector('i'); // Az ikon kijelölése
+
+if (mobileMenuToggle && mainNavLinks) {
+    // Nyitás és zárás a gombbal
+    mobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation(); // Megállítjuk az eseményt, hogy ne fusson bele a lenti zárásba
+        mainNavLinks.classList.toggle('active');
+        
+        // Ikon cseréje: bars -> times (X)
+        if (mainNavLinks.classList.contains('active')) {
+            menuIcon.classList.replace('fa-bars', 'fa-times');
+        } else {
+            menuIcon.classList.replace('fa-times', 'fa-bars');
+        }
+    });
+
+    // Menü bezárása, ha rákattintunk egy konkrét linkre
+    const navLinks = mainNavLinks.querySelectorAll('a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mainNavLinks.classList.remove('active');
+            menuIcon.classList.replace('fa-times', 'fa-bars');
         });
-        mainNavLinks.addEventListener('click', () => {
-            if (mainNavLinks.classList.contains('active')) {
-                mainNavLinks.classList.remove('active');
-            }
-        });
-    }
+    });
+
+    // Opcionális: Bezárás, ha a menün kívülre kattintunk
+    document.addEventListener('click', (e) => {
+        if (!mainNavLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mainNavLinks.classList.remove('active');
+            menuIcon.classList.replace('fa-times', 'fa-bars');
+        }
+    });
+}
     
     // Scrollspy (menüpont kiemelése)
     const sections = document.querySelectorAll('main section[id]');
