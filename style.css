@@ -273,7 +273,7 @@ nav {
     opacity: 1;
 }
 
-/* --- VISSZA A TETEJÉRE GOMB --- */
+/* --- VISSZA A TETEJÉRE GOMB (JAVÍTOTT) --- */
 #back-to-top { 
     position: fixed; 
     bottom: 25px; 
@@ -286,10 +286,13 @@ nav {
     color: var(--primary-color);   
     cursor: pointer; 
     border-radius: 50%; 
+    
+    /* Kezdeti állapot: rejtve */
     opacity: 0; 
     visibility: hidden; 
-    transform: translateY(15px); 
-    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s; 
+    transform: translateY(20px); 
+    
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
     box-shadow: 0 4px 15px var(--shadow-color);
     display: flex;
     align-items: center;
@@ -305,6 +308,28 @@ nav {
 #back-to-top:hover { 
     background-color: var(--primary-color); 
     color: #ffffff;
+    transform: translateY(-5px);
+}
+
+/* A körív (progress ring) stílusa */
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    transform: rotate(-90deg); /* Felülről kezdődjön a kör */
+}
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 0.1s;
+    stroke: var(--primary-color);
+    stroke-linecap: round;
+}
+
+#back-to-top i {
+    font-size: 1.2rem;
+    z-index: 2;
 }
 
 /* --- TÉMAVÁLTÓ --- */
