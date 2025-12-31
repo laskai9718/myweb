@@ -1,22 +1,31 @@
-// js/preloader.js (JAVÍTVA ÉS TISZTÍTVA)
+// js/preloader.js (OPTIMALIZÁLT ÉS BIZTONSÁGOS VERZIÓ)
 
 export function initPreloader() {
     const preloader = document.getElementById('preloader');
-
     if (!preloader) return;
 
-    // FONTOS JAVÍTÁS: Nincs itt szükség a DOMContentLoaded-re, mert 
-    // a main.js már DOMContentLoaded után hívja meg. 
-    // Egyszerűen futtassa a késleltetést.
-    
-    // Minimum 500 ms várakozás, hogy az animáció ne csak egy pillanat legyen
-    setTimeout(() => {
+    // Görgetés tiltása a betöltés alatt
+    document.body.style.overflow = 'hidden';
+
+    const hidePreloader = () => {
         preloader.classList.add('preloader-hidden');
+        document.body.style.overflow = ''; // Görgetés visszaállítása
 
-        // Opcionális: A DOM-ból is kitörölhetjük az animáció után
+        // Eltávolítás a DOM-ból a teljesítményért
         preloader.addEventListener('transitionend', () => {
-             preloader.remove(); 
-        });
+            preloader.remove();
+        }, { once: true });
+    };
 
-    }, 500); // 0.5 másodperces minimum megjelenés
+    // 1. Biztonsági mentés: 3 mp után mindenképp tűnjön el (ha a JS elakadna)
+    const backupTimeout = setTimeout(hidePreloader, 3000);
+
+    // 2. Normál betöltési folyamat (pl. képek és erőforrások után)
+    window.addEventListener('load', () => {
+        // Minimum 500ms késleltetés, hogy ne legyen vibrálás (flickering)
+        setTimeout(() => {
+            clearTimeout(backupTimeout); // Töröljük a biztonsági időzítőt
+            hidePreloader();
+        }, 500);
+    });
 }

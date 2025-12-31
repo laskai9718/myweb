@@ -1,72 +1,91 @@
-// js/portfolio.js
+// js/portfolio.js (OPTIMALIZÁLT VERZIÓ)
 
-// A projekt adatok, most már itt, a saját moduljukban
-const projects = [];
+const projects = []; // Ide jöhetnek a projekt objektumok
 
 const portfolioGrid = document.getElementById('portfolio-grid');
 const portfolioFilters = document.getElementById('portfolio-filters');
 
 function displayProjects(projectList) {
-    // Először legeneráljuk az összes HTML stringet egy tömbbe, majd összefűzzük
-    const htmlContent = projectList.map(project => `
-        <div class="portfolio-card" data-aos="fade-up">
-            <img src="${project.image}" alt="${project.title}">
-            <div class="portfolio-overlay">
-                <h3>${project.title}</h3>
-                <p>${project.description}</p>
-            </div>
-        </div>
-    `).join(''); // Egyetlen hosszú stringet kapunk
+    // 1. Kis animációs hatás a tartalomváltáshoz
+    portfolioGrid.style.opacity = '0';
     
-    portfolioGrid.innerHTML = htmlContent; // Csak egyszer nyúlunk a DOM-hoz
-}
+    setTimeout(() => {
+        const htmlContent = projectList.map(project => `
+            <div class="portfolio-card" data-aos="fade-up">
+                <img src="${project.image}" 
+                     alt="${project.title}" 
+                     loading="lazy" 
+                     onerror="this.src='https://via.placeholder.com/600x400?text=Kép+betöltése...'">
+                <div class="portfolio-overlay">
+                    <h3>${project.title}</h3>
+                    <p>${project.description}</p>
+                </div>
+            </div>
+        `).join('');
 
-// Ezt a funkciót fogjuk exportálni, hogy a main.js meghívhassa
-// js/portfolio.js
+        portfolioGrid.innerHTML = htmlContent;
+        portfolioGrid.style.opacity = '1';
+
+        // 2. AOS újraindítása, hogy az új kártyák is animáljanak
+        if (window.AOS) {
+            window.AOS.refreshHard();
+        }
+    }, 200);
+}
 
 export function initPortfolio() {
     if (!portfolioGrid || !portfolioFilters) return;
 
-    // ELLENŐRIZZÜK, HOGY VAN-E PROJEKT
     if (projects.length === 0) {
-        // Ha nincs projekt, megjelenítjük a placeholder kártyát
-        portfolioFilters.innerHTML = ''; // A szűrő gombokat is elrejtjük
-        portfolioGrid.innerHTML = `
-            <div class="portfolio-placeholder" data-aos="zoom-in">
-                <i class="fas fa-code"></i>
-                <h3>Új munkák hamarosan...</h3>
-                <p>Jelenleg a portfólióm feltöltés alatt áll. Nézz vissza később a legfrissebb projektekért!</p>
-            </div>
-        `;
-    } else {
-        // Ha van projekt, lefuttatjuk a normál logikát
-        // Szűrő gombok létrehozása
-        const categories = ['Összes', ...new Set(projects.map(p => p.category))];
-        categories.forEach(category => {
-            const button = document.createElement('button');
-            button.className = 'filter-btn';
-            button.textContent = category;
-            button.dataset.category = category;
-            if (category === 'Összes') button.classList.add('active');
-            portfolioFilters.appendChild(button);
-        });
-
-        // Szűrő gombok eseménykezelője
-        portfolioFilters.addEventListener('click', (e) => {
-            if (e.target.classList.contains('filter-btn')) {
-                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                const selectedCategory = e.target.dataset.category;
-                
-                const filteredProjects = selectedCategory === 'Összes'
-                    ? projects
-                    : projects.filter(p => p.category === selectedCategory);
-                
-                displayProjects(filteredProjects);
-            }
-        });
-
-        // Kezdeti megjelenítés
-        displayProjects(projects);
+        renderPlaceholder();
+        return;
     }
+
+    renderFilters();
+    displayProjects(projects);
+}
+
+function renderFilters() {
+    const categories = ['Összes', ...new Set(projects.map(p => p.category))];
+    const fragment = document.createDocumentFragment();
+
+    categories.forEach(category => {
+        const button = document.createElement('button');
+        button.className = 'filter-btn';
+        button.textContent = category;
+        button.dataset.category = category;
+        if (category === 'Összes') button.classList.add('active');
+        fragment.appendChild(button);
+    });
+
+    portfolioFilters.innerHTML = '';
+    portfolioFilters.appendChild(fragment);
+
+    portfolioFilters.addEventListener('click', handleFilterClick);
+}
+
+function handleFilterClick(e) {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const selectedCategory = btn.dataset.category;
+    const filteredProjects = selectedCategory === 'Összes'
+        ? projects
+        : projects.filter(p => p.category === selectedCategory);
+    
+    displayProjects(filteredProjects);
+}
+
+function renderPlaceholder() {
+    portfolioFilters.innerHTML = '';
+    portfolioGrid.innerHTML = `
+        <div class="portfolio-placeholder" data-aos="zoom-in">
+            <i class="fas fa-code-branch"></i>
+            <h3>Új munkák hamarosan...</h3>
+            <p>Jelenleg a portfólióm frissítése zajlik. Hamarosan láthatod itt a legújabb projektjeimet!</p>
+        </div>
+    `;
 }

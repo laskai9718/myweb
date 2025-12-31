@@ -1,82 +1,81 @@
-// js/contact-form.js (TELJES, VALIDÁCIÓVAL BŐVÍTETT KÓD)
+// js/contact-form.js (OPTIMALIZÁLT ÉS BIZTONSÁGOS VERZIÓ)
 
 export function initContactForm() {
     const contactForm = document.querySelector('.contact-form');
     if (!contactForm) return;
 
     const formStatus = document.getElementById('form-status');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const messageInput = document.getElementById('message');
-
-    // === HIBakezelő segédfüggvények ===
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    
+    // Segédfüggvény a hiba megjelenítéséhez
     function showError(input, message) {
         const formGroup = input.parentElement;
         formGroup.classList.add('error');
-        // Keressük meg a hibaüzenet elemét, vagy hozzuk létre, ha nincs
         let errorElement = formGroup.querySelector('.error-message');
+        
         if (!errorElement) {
             errorElement = document.createElement('div');
             errorElement.className = 'error-message';
             formGroup.appendChild(errorElement);
         }
         errorElement.textContent = message;
+
+        // Eseményfigyelő: ha elkezd gépelni, eltűnik a piros keret
+        input.addEventListener('input', () => {
+            formGroup.classList.remove('error');
+        }, { once: true });
     }
 
-    function clearErrors() {
-        const errorGroups = contactForm.querySelectorAll('.form-group.error');
-        errorGroups.forEach(group => {
-            group.classList.remove('error');
-        });
-        formStatus.textContent = '';
-        formStatus.className = '';
-    }
-
-    // === Validációs logika ===
     function validateForm() {
         let isValid = true;
-        clearErrors(); // Töröljük a korábbi hibákat minden próbálkozásnál
+        const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+        
+        // Összes korábbi hiba törlése
+        contactForm.querySelectorAll('.form-group').forEach(g => g.classList.remove('error'));
 
-        // Név ellenőrzése
-        if (nameInput.value.trim() === '') {
-            showError(nameInput, 'A név megadása kötelező.');
-            isValid = false;
-        }
-
-        // E-mail ellenőrzése
+        // E-mail validáció
+        const emailInput = document.getElementById('email');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailInput.value.trim() === '') {
-            showError(emailInput, 'Az e-mail cím megadása kötelező.');
-            isValid = false;
-        } else if (!emailRegex.test(emailInput.value.trim())) {
-            showError(emailInput, 'Kérlek, érvényes e-mail címet adj meg.');
+
+        if (!emailRegex.test(emailInput.value.trim())) {
+            showError(emailInput, 'Érvényes e-mail címet adj meg!');
             isValid = false;
         }
 
-        // Üzenet ellenőrzése
-        if (messageInput.value.trim().length < 10) {
-            showError(messageInput, 'Az üzenetnek legalább 10 karakter hosszúnak kell lennie.');
-            isValid = false;
+        // Üres mezők és hosszak ellenőrzése
+        inputs.forEach(input => {
+            if (input.value.trim() === '') {
+                showError(input, 'Ezt a mezőt kötelező kitölteni!');
+                isValid = false;
+            }
+        });
+
+        // Ha van hiba, az elsőhöz görgetünk
+        if (!isValid) {
+            const firstError = contactForm.querySelector('.error');
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         return isValid;
     }
-    
-    // === Az eredeti formküldő függvény, kiegészítve a validációval ===
+
     async function handleFormSubmit(event) {
         event.preventDefault();
 
-        // 1. LÉPÉS: ELLENŐRZÉS
-        if (!validateForm()) {
-            formStatus.textContent = 'Kérlek, javítsd a pirossal jelölt hibákat!';
-            formStatus.className = 'error';
-            return; // Ha a validáció hibát talál, nem megyünk tovább
-        }
+        // 1. Honeypot védelem (Ha a rejtett 'website' mező nem üres, botról van szó)
+        const honeypot = event.target.querySelector('input[name="_gotcha"]');
+        if (honeypot && honeypot.value !== "") return;
 
-        // 2. LÉPÉS: KÜLDÉS (csak ha minden rendben van)
+        if (!validateForm()) return;
+
+        // Gomb blokkolása a dupla küldés ellen
+        submitBtn.disabled = true;
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Küldés...';
+
         const formData = new FormData(event.target);
-        formStatus.textContent = 'Küldés folyamatban...';
-        formStatus.className = 'info';
+        formStatus.className = 'form-status info show';
+        formStatus.textContent = 'Üzenet küldése folyamatban...';
 
         try {
             const response = await fetch(event.target.action, {
@@ -84,16 +83,26 @@ export function initContactForm() {
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             });
+
             if (response.ok) {
-                formStatus.textContent = 'Köszönöm a megkeresést! Hamarosan válaszolok.';
-                formStatus.className = 'success';
+                formStatus.className = 'form-status success show';
+                formStatus.textContent = 'Köszönöm! Az üzenetet sikeresen megkaptam.';
                 contactForm.reset();
             } else {
-                throw new Error('Hálózati hiba.');
+                throw new Error();
             }
         } catch (error) {
-            formStatus.textContent = 'Hiba történt a küldés során. Kérlek, próbáld újra!';
-            formStatus.className = 'error';
+            formStatus.className = 'form-status error show';
+            formStatus.textContent = 'Sajnos hiba történt. Kérlek, próbáld meg később!';
+        } finally {
+            // Gomb visszaállítása
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+            
+            // Státuszüzenet eltüntetése 5 másodperc után
+            setTimeout(() => {
+                formStatus.classList.remove('show');
+            }, 5000);
         }
     }
 

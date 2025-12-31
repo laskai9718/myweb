@@ -1,29 +1,54 @@
-// js/main.js (JAVÍTVA)
+// js/main.js (STABIL ÉS OPTIMALIZÁLT)
 
-// Importáljuk a funkciókat a többi modulból
 import { initAnimations } from './animations.js';
 import { initContactForm } from './contact-form.js';
 import { initPortfolio } from './portfolio.js';
 import { initThemeSwitcher } from './theme.js';
 import { initUI } from './ui.js';
 import { initParticles } from './particles-init.js';
-import { initPreloader } from './preloader.js'; // Ezt fogjuk javítani a következő lépésben
+import { initPreloader } from './preloader.js';
 
-// Fő eseményfigyelő, ami mindent elindít
-document.addEventListener('DOMContentLoaded', function() {
-    initPreloader();
-    initAnimations();
-    initContactForm();
-    initPortfolio();
-    initThemeSwitcher();
-    initUI();
-    initParticles();
+/**
+ * A modulok biztonságos inicializálása
+ */
+const safeInit = (initFn, name) => {
+    try {
+        initFn();
+    } catch (error) {
+        console.error(`Hiba a(z) ${name} inicializálása során:`, error);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. KRITIKUS: Preloader és Téma (azonnal látszódniuk kell)
+    safeInit(initPreloader, 'Preloader');
+    safeInit(initThemeSwitcher, 'ThemeSwitcher');
+
+    // 2. VIZUÁLIS ALAPOK
+    safeInit(initUI, 'UI Logic');
+    safeInit(initParticles, 'Particles');
     
-    // ÚJ: Parallax (Rellax) inicializálása
-    if (window.innerWidth >= 768) { 
-        // A teljes Hero szöveges konténer (h1, p.subtitle) és a kép megkapja a Parallax-ot.
-        new Rellax('.hero-text h1, .hero-text .subtitle, .hero-text p:not(.subtitle), .hero-visual img', {
-            // A sebességeket a data-rellax-speed attribútumokból veszi
-        });
+    // 3. TARTALOM ÉS FUNKCIÓK
+    safeInit(initPortfolio, 'Portfolio');
+    safeInit(initContactForm, 'Contact Form');
+
+    // 4. ANIMÁCIÓK ÉS KÜLSŐ KÖNYVTÁRAK
+    safeInit(initAnimations, 'Animations');
+
+    // Rellax (Parallax) inicializálása
+    if (typeof Rellax !== 'undefined' && window.innerWidth >= 768) {
+        try {
+            // Tipp: Érdemesebb egy közös osztályt (.rellax) használni a HTML-ben
+            new Rellax('.hero-text h1, .hero-text .subtitle, .hero-visual img', {
+                speed: -2,
+                center: false,
+                wrapper: null,
+                round: true,
+                vertical: true,
+                horizontal: false
+            });
+        } catch (e) {
+            console.warn("Rellax inicializálási hiba:", e);
+        }
     }
 });

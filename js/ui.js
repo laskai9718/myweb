@@ -1,151 +1,126 @@
-// js/ui.js (TELJES, FRISSÍTETT VERZIÓ)
+// js/ui.js (OPTIMALIZÁLT ÉS TELJES VERZIÓ)
 
 export function initUI() {
-    // Header zsugorítása
+    // DOM elemek gyorsítótárazása
     const header = document.getElementById('main-header');
-    if (header) {
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('shrink', window.scrollY > 50);
-        });
-    }
-
-    // Vissza a tetejére gomb (GÖRGETÉSJELZŐS VERZIÓ)
     const backToTopButton = document.getElementById('back-to-top');
-    if (backToTopButton) {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mainNavLinks = document.getElementById('main-nav-links');
+    const modalOverlay = document.getElementById('privacy-modal-overlay');
+    const consentBanner = document.getElementById('cookie-consent-banner');
+
+    // --- 1. GÖRGETÉSSEL KAPCSOLATOS LOGIKA (OPTIMALIZÁLT) ---
+    let isScrolling = false;
+
+    const handleScroll = () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const scrollY = window.scrollY;
+
+                // Header zsugorítása
+                if (header) header.classList.toggle('shrink', scrollY > 50);
+
+                // Back to top & Progress circle
+                if (backToTopButton) {
+                    backToTopButton.classList.toggle('show', scrollY > 300);
+                    updateProgress();
+                }
+
+                // Scrollspy
+                highlightMenu(scrollY);
+
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    };
+
+    const updateProgress = () => {
         const progressCircle = backToTopButton.querySelector('.progress-ring__circle');
+        if (!progressCircle) return;
         const radius = progressCircle.r.baseVal.value;
         const circumference = 2 * Math.PI * radius;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (window.scrollY / scrollHeight) * 100;
+        const offset = circumference - (scrollPercent / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+    };
 
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-        progressCircle.style.strokeDashoffset = circumference;
+    const highlightMenu = (scrollY) => {
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('.main-nav-links a');
+        let currentId = '';
+        const hHeight = header ? header.offsetHeight : 80;
 
-        const setProgress = (percent) => {
-            const offset = circumference - (percent / 100) * circumference;
-            progressCircle.style.strokeDashoffset = offset;
-        }
-
-        window.addEventListener('scroll', () => {
-            backToTopButton.classList.toggle('show', window.scrollY > 300);
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollTop = window.scrollY;
-            const scrollPercent = (scrollTop / scrollHeight) * 100;
-            setProgress(scrollPercent);
+        sections.forEach(sec => {
+            if (scrollY >= sec.offsetTop - hHeight - 10) {
+                currentId = sec.getAttribute('id');
+            }
         });
 
-        backToTopButton.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        navLinks.forEach(link => {
+            link.classList.toggle('active-link', link.getAttribute('href') === `#${currentId}`);
         });
-    }
+    };
 
- // Mobil menü kezelése
-const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-const mainNavLinks = document.getElementById('main-nav-links');
-const menuIcon = mobileMenuToggle.querySelector('i'); // Az ikon kijelölése
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
-if (mobileMenuToggle && mainNavLinks) {
-    // Nyitás és zárás a gombbal
-    mobileMenuToggle.addEventListener('click', (e) => {
-        e.stopPropagation(); // Megállítjuk az eseményt, hogy ne fusson bele a lenti zárásba
-        mainNavLinks.classList.toggle('active');
+    // --- 2. MOBIL MENÜ ---
+    if (mobileMenuToggle && mainNavLinks) {
+        const menuIcon = mobileMenuToggle.querySelector('i');
         
-        // Ikon cseréje: bars -> times (X)
-        if (mainNavLinks.classList.contains('active')) {
-            menuIcon.classList.replace('fa-bars', 'fa-times');
-        } else {
-            menuIcon.classList.replace('fa-times', 'fa-bars');
-        }
-    });
-
-    // Menü bezárása, ha rákattintunk egy konkrét linkre
-    const navLinks = mainNavLinks.querySelectorAll('a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            mainNavLinks.classList.remove('active');
-            menuIcon.classList.replace('fa-times', 'fa-bars');
-        });
-    });
-
-    // Opcionális: Bezárás, ha a menün kívülre kattintunk
-    document.addEventListener('click', (e) => {
-        if (!mainNavLinks.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mainNavLinks.classList.remove('active');
-            menuIcon.classList.replace('fa-times', 'fa-bars');
-        }
-    });
-}
-    
-    // Scrollspy (menüpont kiemelése)
-    const sections = document.querySelectorAll('main section[id]');
-    const navLinks = document.querySelectorAll('.main-nav-links a');
-    if (sections.length > 0 && navLinks.length > 0) {
-        const highlightMenu = () => {
-            let currentSectionId = '';
-            const headerHeight = header ? header.offsetHeight : 100;
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (window.scrollY >= sectionTop - headerHeight) {
-                    currentSectionId = section.getAttribute('id');
-                }
-            });
-
-            const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5;
-            if (isAtBottom) {
-                const lastSection = sections[sections.length - 1];
-                currentSectionId = lastSection.getAttribute('id');
-            }
+        const toggleMenu = (forceClose = false) => {
+            const isOpen = forceClose ? false : mainNavLinks.classList.toggle('active');
+            if (forceClose) mainNavLinks.classList.remove('active');
             
-            navLinks.forEach(link => {
-                link.classList.remove('active-link');
-                if (link.getAttribute('href') === `#${currentSectionId}`) {
-                    link.classList.add('active-link');
-                }
-            });
+            menuIcon.classList.toggle('fa-times', isOpen);
+            menuIcon.classList.toggle('fa-bars', !isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
         };
-        window.addEventListener('scroll', highlightMenu);
-        highlightMenu();
-    }
 
-    // === ÚJ RÉSZ: MODÁLIS ABLAK KEZELÉSE ===
-    const openModalLink = document.getElementById('open-privacy-modal');
-    const modalOverlay = document.getElementById('privacy-modal-overlay');
-    const closeModalButton = document.getElementById('modal-close-button');
-
-    if (openModalLink && modalOverlay && closeModalButton) {
-        // A modál megnyitásakor:
-        openModalLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            modalOverlay.classList.add('show-modal');
-            document.body.style.overflow = 'hidden'; // Háttér görgetés letiltása
+        mobileMenuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
         });
 
-        // A bezáráskor (minden bezáró eseménynél):
-        const closeModal = () => {
-            modalOverlay.classList.remove('show-modal');
-            document.body.style.overflow = ''; // Visszaállítja az eredeti állapotot
+        mainNavLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => toggleMenu(true)));
+        
+        document.addEventListener('click', (e) => {
+            if (!mainNavLinks.contains(e.target) && mainNavLinks.classList.contains('active')) toggleMenu(true);
+        });
+    }
+
+    // --- 3. MODÁLIS ABLAK ---
+    const openModal = document.getElementById('open-privacy-modal');
+    if (openModal && modalOverlay) {
+        const toggleModal = (show) => {
+            modalOverlay.classList.toggle('show-modal', show);
+            document.body.style.overflow = show ? 'hidden' : '';
         };
 
-        // Eseményfigyelő a háttérre kattintásra: szintén bezárja a modált
+        openModal.addEventListener('click', (e) => { e.preventDefault(); toggleModal(true); });
+        
         modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.classList.remove('show-modal');
-            }
+            if (e.target === modalOverlay || e.target.closest('#modal-close-button')) toggleModal(false);
+        });
+
+        // Billentyűzet figyelés (ESC)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('show-modal')) toggleModal(false);
         });
     }
-    // === EDDIG TART AZ ÚJ RÉSZ ===
 
-    // Süti sáv
-    const consentBanner = document.getElementById('cookie-consent-banner');
-    const acceptButton = document.getElementById('cookie-consent-accept');
-    if (consentBanner && acceptButton) {
-        if (!localStorage.getItem('cookieConsent')) {
-            setTimeout(() => {
-                consentBanner.classList.add('show');
-            }, 2000);
-        }
-        acceptButton.addEventListener('click', () => {
+    // --- 4. SÜTI SÁV ---
+    if (consentBanner && !localStorage.getItem('cookieConsent')) {
+        setTimeout(() => consentBanner.classList.add('show'), 2000);
+        document.getElementById('cookie-consent-accept').addEventListener('click', () => {
             consentBanner.classList.remove('show');
             localStorage.setItem('cookieConsent', 'true');
         });
+    }
+
+    // Back to top click
+    if (backToTopButton) {
+        backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 }
