@@ -64,7 +64,7 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif; /* Add hozzá a tartalékokat! */
     margin: 0;
     line-height: 1.6; /* Picit szűkítettem a jobb olvashatóságért */
     background-color: var(--bg-main); 
@@ -423,7 +423,7 @@ section:first-of-type,
     top: 0;
     left: 0;
     z-index: -1; 
-    pointer-events: none; /* Ne zavarja a kattintásokat */
+    pointer-events: none;
 }
 
 .hero-grid {
@@ -1113,8 +1113,12 @@ footer p {
         padding-top: 2rem;
     }
 
+    /* Keress rá: .hero-visual img a @media (max-width: 768px) alatt */
     .hero-visual img { 
-        max-width: 220px; 
+    max-width: 220px; 
+    aspect-ratio: 1 / 1; /* Add hozzá ezt! */
+    height: auto;
+    /* Ez biztosítja, hogy a böngésző azonnal lefoglalja a helyet (CLS fix) */
     }
 
     .about-me-grid { 
@@ -1141,6 +1145,12 @@ footer p {
         width: 100%; 
         padding: 15px; /* Könnyebb érintés */
     }
+    /* Mobilon kapcsoljuk ki a renderelését, ha nagyon lassú az SI */
+@media (max-width: 768px) {
+    #tsparticles {
+        display: none; /* A telefon processzora fellélegzik */
+    }
+    }
 }
 
 /* Extra kicsi kijelzők (pl. iPhone SE) */
@@ -1152,6 +1162,7 @@ footer p {
     .cta-button {
         width: 100%; /* Gombok teljes szélességűek a könnyű kattintásért */
     }
+    
 }
 /* ==========================================================================
    11. MODÁLIS ABLAK STÍLUSOK (OPTIMALIZÁLT)

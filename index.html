@@ -22,9 +22,9 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://unpkg.com">
 
-    <link rel="preload" as="image" href="profil.webp">
+    <link rel="preload" as="image" href="profil.webp" fetchpriority="high">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" media="all">
 
     <script>
     if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -84,17 +84,22 @@
     </header>
 
     <main>
-        <section id="bemutatkozas" class="hero"> 
-            <div class="container hero-grid">
-                <div class="hero-text">
-                    <h1 data-aos="fade-right" data-rellax-speed="-2">Laskai Márk Dániel</h1> 
-                    <p class="subtitle" data-aos="fade-right" data-aos-delay="100" data-rellax-speed="-1">Weblapszerkesztő & Fejlesztő</p>
-                </div>
-                <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
-                    <img src="profil.webp" alt="Laskai Márk Dániel portréja" width="450" height="450" fetchpriority="high" data-rellax-speed="2"> 
-                </div>
-            </div>
-        </section>
+<section id="bemutatkozas" class="hero"> 
+    <div class="container hero-grid">
+        <div class="hero-text">
+            <h1>Laskai Márk Dániel</h1> 
+            <p class="subtitle">Weblapszerkesztő & Fejlesztő</p>
+        </div>
+        <div class="hero-visual">
+            <img src="profil.webp" 
+                 alt="Laskai Márk Dániel portréja" 
+                 width="450" 
+                 height="450" 
+                 fetchpriority="high" 
+                 loading="eager"> 
+        </div>
+    </div>
+</section>
 
         <section id="szolgaltatasok">
             <div class="container">
